@@ -1,0 +1,127 @@
+*** correr sevidor -- php -S localhost:8000
+
+-- al pasar las variables como argumentos en funciones le estamos pasando los valores, 
+asi que si quermeos pasarle esa variable como tal tenemos que pasarle una referencia(&) owo.
+
+
+** comparacion -- al parecer al comprar obejtos arrays etc, con === o == compara valores y tipos dependiendo, 
+no compara referenicas, solo si son iguales de valores.
+
+** referencia -- el object si tiene referencia, pero el array asociativo nop, -- esto al pasar como argumento en las funciones,
+sin especificar que viene como referencia(&).
+
+** rest -- el parametro rest es igual al del js
+
+** acceder por indice -- se puede usar negativos solo en cadenas, pero, no se puede obtener pedazos como en python
+
+** desestrucracion de array simples --- list(a, b, c) = array
+
+** spread operator no lo pose en objetos ni asociativos, solo en arrays simple ...array
+
+
+*** Tipado 
+- en los parametros puedes especificar el tipo de dao que se espera, eje: (int numOne, float numTwo)
+-- por defecto los parametros que le des lo sintentaconvertir a ese tipo, osea que si es inconpatible falla.
+-- especificar tipo de salida en fn -- eje:
+  $operation = function (int | bool $num1, float $num2): null | int   {
+    return $num1 + $num2;
+  };
+
+  ** se usa el '|' para inticar que uno de ello cumple o se espera recir o revolver.
+
+
+** se puede hacer stricto con declare(strict_types=1) 
+
+*** arrays simples
+-- range() --- genera un array con limite inferior y superior como valores eje: range(5, 60) -- array de numeros del 5 al 60
+-- list() -- desestructurar arrays simples.
+-- count() --numero de elementos del array
+-- in_array() -- verificar si elmentos estan en el array
+-- unset() -- eliminar elmentos del array
+- array_splice() -- elimina segun el indice, y el numero
+- crud add -  array[] = newElement
+- update -- array[index] = otherElment
+- clear -- array = [] | unset(array)
+
+*** Importar archivos php
+- require: Se usa cuando el archivo incluido es crucial para el script y su ausencia o errores deben detener la ejecución del script.
+- include: Se usa cuando el archivo incluido no es esencial y los errores en este archivo deben mostrar advertencias pero no detener la ejecución del script.
+
+*** Namespaces  -- sirven para organizar y encapsular el código, permitiendo que diferentes partes de una aplicación
+ o biblioteca utilicen nombres de Clases, funciones y constantes sin entrar en conflicto con otros nombres.
+1.Evitar Conflictos de Nombres
+2.Organización del código
+3.Mejor Legibilidad:
+**Los namespaces y el uso de require o include son complementarios. 
+
+*** Autoload puedes crear tu función propia y insertarla en todos los archivos o
+puedes iniciar un projecto con composer y cargar los namespaces con autoloader
+-- necesitas especificar los nameSpaces en el composer.json y 
+- necesitas generar el autoloaded con -- composer dump-autoload
+** Siempre necesitaras requeir el archivo del ventor autoload para que funcione, esto en un archivo de entrada a tu app.
+** en tu json dle autoload, solo encsitas declarar el namespace en al carpeta mas top y funcionara para las subsecuentes.
+
+** Poo 
+-- encapsulamiento
+- public -> se puede usar y ver desde cualquier instancia de la clase o hijas.
+- protected -> solo se puede usar en la clase original e hijas, pero no desde fuera.
+- private -> solo se puede usar en la clase original
+
+** $this: Se refiere a la "instancia actual de la clase". Se usa dentro de los métodos de la clase para acceder a 
+las propiedades y métodos de esa instancia particular.
+** self: Se refiere a "la propia clase" en la que se está utilizando. Se usa principalmente para acceder a 
+propiedades estáticas y métodos estáticos de la misma clase, sin necesidad de instanciarla.
+
+** Herencia una clase solo puede heredar de una clase padre sea abstracta o no, no hay herencia multiple
+
+class User {
+    private ?string $tokenPrivate = null;        -- ? -- significa que puede ser null, en este caso null o string
+    private ?Collection $collection = null;
+}
+
+
+*** Interfaces --  mecanismo que permite definir un conjunto de métodos que una clase debe implementar.
+1. solo metodos publicos
+2. metodos sin implementación
+3. contrato de implemnetación --> debe cumplir strictamente con el metodo dado.
+4.pueden ser extendidas en nuevas interfaces.
+    newInterface extends someI, otherI {}
+** no pueden definir métodos como privados o protegidos.
+
+*** Clases abstractas --clase que no se puede instanciar directamente y que define métodos abstractos que deben ser implementados por las Clases hijas.
+1. No se Puede Instanciar Directamente
+2. Métodos Abstractos
+3. Métodos Normales
+
+*** Traits -- mecanismo que permite la reutilización de métodos en diferentes Clases, 
+1.Reutilización de Métodos
+2.No se Puede Instanciar Directamente
+3.Soporte para Métodos Abstractos y Atributos
+4.Resolución de Conflictos   -- si ambos traits tiene el mimo metodo se deve solucionar el confilicto.
+5.Pueden suar otros Traits   -- tambien peuden usar otros traits
+** permite algo parecido a la herencia multiple basicamente, proque la final el trait no puede ser instanciado.
+
+**** Sí, cuando una clase hija hereda de una clase que utiliza traits, la clase hija heredará todas 
+las funciones (métodos) que esos traits proporcionan a la clase padre. Esto significa que los traits se 
+comportan como si los métodos que contienen fueran parte de la clase misma, y por lo tanto, se transmiten a 
+todas las clases que heredan de ella.
+
+*** Palabra clave "final" -- herramienta poderosa para controlar la herencia y la modificación de clases y métodos en PHP
+  final class Xclass{
+      final public fucntion methodOne(){} --> este metodo no puede ser sobreescrito, peor si heredado normal
+} --> esta clase no puede ser usada com padre
+
+
+** Para arrays:
+-- array_values() toma un array asociativo (o cualquier array) y devuelve un array con los valores, ignorando las claves originales, y asigna claves numéricas secuenciales a los elementos.
+
+** HOISTINg:
+Esto significa que la definición de la función es reconocida por el motor de PHP en 
+tiempo de compilación, lo que permite que estas funciones sean llamadas en cualquier lugar de su ámbito, incluso antes de su definición en el código fuente.
+** las funciones normales --> tambien son leidas al inicio aunque las definas despues de llamrlas,
+caso contrario las flechas deben ser llamadas despues de haver sido creadas.
+
+** Fluent interfaces
+- al ejecutar un metodod e una función ponemos seguir concatenando metodos pero solo
+si cada metodo devuelve al final a si mismo osea su intancia, y cual esl antsanica, la variable $this,
+asi que con eso se pueden concatenar metodos :)
